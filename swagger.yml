@@ -1,0 +1,104 @@
+openapi: 3.0.0
+info:
+  title: "RP Flask REST API"
+  description: "An API for nodes and edges"
+  version: "1.0.0"
+
+servers:
+  - url: "/api"
+
+components:
+  schemas:
+    Node:
+      type: "object"
+      required:
+        - node_name
+      properties:
+        node_id:
+          type: "integer"
+        node_name:
+          type: "string"
+    Edge:
+      type: "object"
+      required:
+        - parent_id, child_id
+      properties:
+        parent_id:
+          type: "integer"
+        child_id:
+          type: "integer"
+  parameters:
+    node_id:
+      name: "node_id"
+      description: "ID of the node"
+      in: path
+      required: true
+      schema:
+        type: "integer"
+    child_id:
+      name: "child_id"
+      description: "ID of the child"
+      in: path
+      required: true
+      schema:
+        type: "integer"
+    parent_id:
+      name: "parent_id"
+      description: "ID of the parent"
+      in: path
+      required: true
+      schema:
+        type: "integer"
+
+paths:
+  /nodes:
+    get:
+      operationId: "db_methods.get_nodes"
+      tags:
+        - Nodes
+      summary: "Read the list of nodes"
+      responses:
+        "200":
+          description: "Successfully read nodes list"
+  /nodes/{node_id}:
+    get:
+      operationId: "db_methods.get_node"
+      tags:
+        - Nodes
+      summary: "Read one node"
+      parameters:
+        - $ref: "#/components/parameters/node_id"
+      responses:
+        "200":
+          description: "Successfully read one node"
+  /edges:
+    get:
+      operationId: "db_methods.get_edges"
+      tags:
+        - Edges
+      summary: "Read the list of edges"
+      responses:
+        "200":
+          description: "Successfully read edges list"
+  /edges/{child_id}:
+    get:
+      operationId: "db_methods.get_parent"
+      tags:
+        - Edges
+      summary: "Get parent id by child id"
+      parameters:
+        - $ref: "#/components/parameters/child_id"
+      responses:
+        "200":
+          description: "Successfully read one child"
+  /edges/{parent_id}:
+    get:
+      operationId: "db_methods.get_child"
+      tags:
+        - Edges
+      summary: "Get child id by parent id"
+      parameters:
+        - $ref: "#/components/parameters/parent_id"
+      responses:
+        "200":
+          description: "Successfully read one parent"
