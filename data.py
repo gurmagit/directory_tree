@@ -1,5 +1,5 @@
 from db_methods import get_nodes, get_edges, get_node, get_parent, get_child
-  
+
 def get_id(id, col):
   if col == "parent":
     node_id = get_parent(id)
